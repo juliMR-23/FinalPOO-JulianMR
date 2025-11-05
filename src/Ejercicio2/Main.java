@@ -37,17 +37,23 @@ public class Main {
         System.out.println("Ingrese el número según el rol\n1. Administrador\n2. Cliente\n0. Cancelar creación");
         switch (elige(0, 2)){
             case 1:
-                if(nombre.equals("Daniela") || nombre.equals("Valeria") || nombre.equals("Valentina") || nombre.equals("Isaac")){
-                    throw new ValidarNombre("Un administrador no puede tener este nombre");
+                Administrador a;
+                try {
+                    a = new Administrador(id, nombre);
+                }catch (ValidarNombre e){
+                    System.out.println(e.getMessage()); return null;
                 }
-                return (T) new Administrador(id, nombre);
+                return (T) a;
             case 2:
                 System.out.println("Ingrese el monto de compra");
                 BigDecimal monto = new BigDecimal(sc.nextLine());
-                if(nombre.equals("Brayan") || nombre.equals("Bryan") ){
-                    throw new ValidarNombre("Un cliente no puede tener este nombre");
+                Cliente c;
+                try {
+                    c = new Cliente(id, nombre, monto);
+                }catch (ValidarNombre e){
+                    System.out.println(e.getMessage()); return null;
                 }
-                return (T) new Cliente(id, nombre, monto);
+                return (T) c;
         }
         return null;
     }
@@ -75,8 +81,9 @@ public class Main {
                     Persona persona = crearPersona(personas);
                     if(persona!=null){
                         personas.add(persona);
-                        System.out.println("Creación exitosa");
+                        System.out.println("Creación exitosa"); break;
                     }
+                    System.out.println("Operación cancelada");
                     break;
                 case 2:
                     Cliente clienteMayor = null;
